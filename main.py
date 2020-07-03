@@ -103,7 +103,7 @@ def html_to_info(html_):
 def info_to_json(one_page_html, fanhao: str,actors_path: str):
     path_file_json = actors_path + '\\' + fanhao + '.json'
     if os.path.exists(path_file_json):
-        print(fanhao + '.json已存在')
+        print('json已存在')
         return
     title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list = html_to_info(one_page_html)
     d = {'title': title, 'fanhao': fanhao,
@@ -112,6 +112,7 @@ def info_to_json(one_page_html, fanhao: str,actors_path: str):
             'title': title, 'trailer': trailer,
             'magnet_list': magnet_list}
     write_all_text(path_file_json, json.dumps(d, ensure_ascii=False))
+    print('json保存成功')
 
 
 def main():
@@ -149,12 +150,12 @@ def main():
             create_dir_if_not_exist(actor_path)
             #爬取每个演员所有的作品链接
             one_page_list = []
-            for x in range(1,2):
+            for x in range(1,100):
                 actor_all_url = actor_works_url + '?page=' + str(x)
                 print(actor_all_url)
                 browser.get(actor_all_url)
                 actor_all_page_html = browser.page_source
-                one_page_list = one_page_list+ crawl_actor_works_page(actor_all_page_html,main_url)
+                one_page_list = one_page_list + crawl_actor_works_page(actor_all_page_html,main_url)
                 if '下一頁' not in actor_all_page_html:
                     break
                 time.sleep(5)
@@ -163,14 +164,25 @@ def main():
             for fanhao,one_page_url in one_page_list:
                 print(fanhao,one_page_url)
                 path_file_html = actor_path+ '\\' + fanhao + '.html'
-                browser.get(one_page_url)
-                one_page_html = browser.page_source
-                write_all_text(path_file_html,one_page_html)
-                #4根据本地html提取info
-                #5保存为json
-                info_to_json(one_page_html, fanhao,actor_path)
-                print('json保存成功----------')
-                time.sleep(5)
+                if os.path.exists(path_file_html):
+                    one_page_html = read_all_text(path_file_html)
+                    print('html已存在，读取成功')
+                    info_to_json(one_page_html, fanhao,actor_path)
+                else:
+                    browser.get(one_page_url)
+                    print('html爬取成功')
+                    one_page_html = browser.page_source
+                    if '暫無磁鏈下載' in one_page_html:
+                        print('暫無磁鏈下載，跳过该番号。')
+                        print('-'*20)
+                        continue
+                    else:
+                        one_page_html = browser.page_source
+                        write_all_text(path_file_html,one_page_html)
+                        print('html保存成功')
+                        time.sleep(5)
+                    info_to_json(one_page_html, fanhao,actor_path)
+                print('-'*20)
             time.sleep(5)
         time.sleep(5)
         print("-"*40)
