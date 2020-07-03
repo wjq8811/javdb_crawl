@@ -154,7 +154,7 @@ def main():
                 print(actor_all_url)
                 browser.get(actor_all_url)
                 actor_all_page_html = browser.page_source
-                one_page_list = crawl_actor_works_page(actor_all_page_html,main_url)
+                one_page_list = one_page_list+ crawl_actor_works_page(actor_all_page_html,main_url)
                 if '下一頁' not in actor_all_page_html:
                     break
                 time.sleep(5)
