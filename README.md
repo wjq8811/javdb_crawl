@@ -1,8 +1,6 @@
 # javdb_crawl
 
-基于selenium + chrome爬取javdb工具
-
-
+基于硒+铬爬取javdb工具
 
 基本流程：
 
@@ -16,12 +14,9 @@
 
 5、保存为json
 
-
-
-
 食用条件：
 
-1、安装selenium 模块
+1、安装 selenium 模块
 
 pip install selenium
 
@@ -29,8 +24,9 @@ pip install selenium
 
 3、下载对应版本的chromedriver，并将exe文件放到py文件目录下
 
+4、安装 lxml 模块
 
-
+pip install lxml
 
 一些声明：
 
