@@ -33,30 +33,32 @@ def get_html(browser, url, xpath_):
     browser.get(url)
     html = ''
     try:
-        WebDriverWait(browser, 2).until(
+        WebDriverWait(browser, 5).until(
             EC.presence_of_element_located((By.XPATH, xpath_)))
     except Exception as e:
-        print('无法正确打开网页，五秒后重试。')
+        print('无法按时打开网页，五秒后重试。')
         # browser.close()
         time.sleep(5)
         get_html(browser, url, xpath_)
     else:
         browser.execute_script("window.stop();")
         html = browser.page_source
-        html_xpath = etree.HTML(html)
-    if '暫無內容'in html:
+
+    if '暫無內容' in html:
         time.sleep(2)
+        html_xpath = etree.HTML(html)
         return html, html_xpath
     if 'javdb' not in html:
-        print('无法正确打开网页，五秒后重试。')
+        print('html中找不到javdb，五秒后重试。')
         time.sleep(5)
         html, html_xpath = get_html(browser, url, xpath_)
-    elif html_xpath.xpath(xpath_) is None:
-        print('html_xpath为空，五秒后重试。')
-        time.sleep(5)
-        html, html_xpath = get_html(browser, url, xpath_)
-    elif html == '':
+    if html == '':
         print('html为空，五秒后重试。')
+        time.sleep(5)
+        html, html_xpath = get_html(browser, url, xpath_)
+    html_xpath = etree.HTML(html)
+    if html_xpath.xpath(xpath_) is None:
+        print('html_xpath为空，五秒后重试。')
         time.sleep(5)
         html, html_xpath = get_html(browser, url, xpath_)
     time.sleep(2)
