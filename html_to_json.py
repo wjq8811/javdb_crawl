@@ -70,7 +70,7 @@ def info_to_json(one_page_html, fanhao: str,actors_path: str):
     d = {'title': title, 'fanhao': fanhao,
             'time': time, 'scoring': scoring,
             'type_': type_, 'performer': performer,
-            'title': title, 'trailer': trailer,
+            'poster': poster, 'trailer': trailer,
             'magnet_list': magnet_list}
     file_io.write_all_text(path_file_json, json.dumps(d, ensure_ascii=False))
     print('json保存成功')
