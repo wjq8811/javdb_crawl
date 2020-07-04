@@ -1,3 +1,6 @@
+#!/usr/bin/python3  
+# -*- coding: utf-8 -*- 
+
 import file_io,my_selenium,html_to_json
 import os
 
