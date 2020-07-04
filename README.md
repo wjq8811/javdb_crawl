@@ -20,6 +20,8 @@ exe食用条件：
 
 2、下载对应版本的chromedriver，并将exe文件放到py文件目录下
 
+文件夹中的chromedriver支持chrome 83.0.4103.116（正式版本）
+
 py食用条件：
 
 1、安装 selenium 模块
