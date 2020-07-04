@@ -26,16 +26,16 @@ def main(main_url,file_path):
 
     #抓取所有演员地址并保存
     actors_list_path = file_path + '\\' + 'actors_list.txt'
-    actors_list = crawler_function.crawler_all_actros(browser, main_url)
-    file_io.write_all_lines(actors_list_path, actors_list)
-    
-    #读取演员地址，爬取演员作品地址
-    actors_list = file_io.read_all_lines(actors_list_path)
+    if os.path.exists(actors_list_path):
+        print('actors_list已存在，如需更新请删除后重新开始。')
+        actors_list = file_io.read_all_lines(actors_list_path)
+    else:
+        actors_list = crawler_function.crawler_all_actros(browser, main_url)
+        file_io.write_all_lines(actors_list_path, actors_list)
+
     for tmp in actors_list:
         actor_name,actor_url = tmp.split('|')
-        work_list_path = file_path + '\\' + actor_name +'_work_list.txt'
         main_crawler_one_artor_works.function(browser,main_url,actor_url,file_path)
-
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
