@@ -14,7 +14,13 @@
 
 5、保存为json
 
-食用条件：
+exe食用条件：
+
+1、安装chrome
+
+2、下载对应版本的chromedriver，并将exe文件放到py文件目录下
+
+py食用条件：
 
 1、安装 selenium 模块
 
