@@ -1,3 +1,6 @@
+#!/usr/bin/python3  
+# -*- coding: utf-8 -*- 
+
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import file_io,my_selenium,crawler_function,main_crawler_one_artor_works
