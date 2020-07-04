@@ -22,7 +22,7 @@ def crawler_all_actros(browser, main_url):
     return actors_list
 
 def crawler_actro_works(browser, main_url, actor_url):
-    xpath_ = '//*[@id="videos"]/div/div'
+    xpath_ = '//*[@id="videos"]/div/div/a'
     num = 1
     work_list = []
     for page_num in range(1,100):
