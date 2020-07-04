@@ -1,6 +1,5 @@
 #!/usr/bin/python3  
 # -*- coding: utf-8 -*- 
-
 import file_io,my_selenium,html_to_json
 import os
 
@@ -41,7 +40,12 @@ def crawler_actro_works(browser, main_url, actor_url):
                 html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/@href')[0]
             fanhao = html_xpath.xpath(
                 '//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
-            work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
+            if '可下载' in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div//text()'):
+                work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
+                # print(fanhao,fanhao_url,'可下载，已保存url')
+            else:
+                pass
+                # print(fanhao,fanhao_url,'找不到可下载，已跳过')
         if '下一頁' not in html :
             break
         print('共找到' + str(len(work_list)) + '个番号')
