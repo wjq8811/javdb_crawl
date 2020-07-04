@@ -14,6 +14,8 @@
 
 5、保存为json
 
+6、用json_to_xlsx 转为excel
+
 exe食用条件：
 
 1、安装chrome
