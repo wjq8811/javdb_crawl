@@ -26,7 +26,7 @@ def main(main_url,actor_url,file_path):
     }
     options.add_experimental_option('prefs', prefs)
     #设置代理，不需要的可以注释掉
-    options.add_argument('--proxy-server=http://192.168.2.1:1282') 
+    #options.add_argument('--proxy-server=http://192.168.2.1:1282') 
     capa = DesiredCapabilities.CHROME
     capa["pageLoadStrategy"] = "none" #懒加载模式，不等待页面加载完毕
     browser = webdriver.Chrome(chrome_options=options,desired_capabilities=capa)
