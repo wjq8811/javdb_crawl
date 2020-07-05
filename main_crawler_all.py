@@ -24,18 +24,24 @@ def main(main_url,file_path):
     #跳过验证
     my_selenium.i_am_robot(browser, main_url)
 
-    #抓取所有演员地址并保存
-    actors_list_path = file_path + '\\' + 'actors_list.txt'
-    if os.path.exists(actors_list_path):
-        print('actors_list已存在，如需更新请删除后重新开始。')
-        actors_list = file_io.read_all_lines(actors_list_path)
-    else:
-        actors_list = crawler_function.crawler_all_actros(browser, main_url)
-        file_io.write_all_lines(actors_list_path, actors_list)
+    try:
+        #抓取所有演员地址并保存
+        actors_list_path = file_path + '\\' + 'actors_list.txt'
+        if os.path.exists(actors_list_path):
+            print('actors_list已存在，如需更新请删除后重新开始。')
+            actors_list = file_io.read_all_lines(actors_list_path)
+        else:
+            actors_list = crawler_function.crawler_all_actros(browser, main_url)
+            file_io.write_all_lines(actors_list_path, actors_list)
 
-    for tmp in actors_list:
-        actor_name,actor_url = tmp.split('|')
-        main_crawler_one_artor_works.function(browser,main_url,actor_url,file_path)
+        for tmp in actors_list:
+            actor_name,actor_url = tmp.split('|')
+            main_crawler_one_artor_works.function(browser,main_url,actor_url,file_path)
+    except Exception as e:
+        browser.quit()
+        main(main_url,file_path)
+
+
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
