@@ -6,7 +6,7 @@ import os
 def crawler_all_actros(browser, main_url):
     xpath_ = '//*[@id="actors"]/div'
     actors_list = []
-    for page_num in range(1, 2):  # 只有30页？
+    for page_num in range(1, 31):  # 只有30页？
         actors_page_url = main_url + '/actors?page=' + str(page_num)
         html, html_xpath = my_selenium.get_html(browser, actors_page_url, xpath_)
         num = len(html_xpath.xpath('//*[@id="actors"]/div'))
@@ -27,6 +27,7 @@ def crawler_actro_works(browser, main_url, actor_url):
     xpath_ = '//*[@id="videos"]/div/div/a'
     num = 1
     work_list = []
+    tmp_work_list = []
     for page_num in range(1,100):
         actor_works_url = actor_url + '?page=' + str(page_num)
         html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
@@ -40,16 +41,20 @@ def crawler_actro_works(browser, main_url, actor_url):
                 html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/@href')[0]
             fanhao = html_xpath.xpath(
                 '//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
+                                            # //*[@id="videos"]/div/div[3]/a/div[4]/span
             if '可下载' in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div//text()'):
                 work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
+                tmp_work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
                 # print(fanhao,fanhao_url,'可下载，已保存url')
             else:
                 pass
                 # print(fanhao,fanhao_url,'找不到可下载，已跳过')
+        print('共找到' + str(len(tmp_work_list)) + '个番号')
+        print('-' * 20)
         if '下一頁' not in html :
             break
-        print('共找到' + str(len(work_list)) + '个番号')
-        print('-' * 20)
+    print('共找到' + str(len(work_list)) + '个番号')
+    print('-' * 20)
         num +=1
     return work_list
 
