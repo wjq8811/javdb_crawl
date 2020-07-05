@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-import requests
+# import requests
 from lxml import etree
 import os
 import time
@@ -48,7 +48,7 @@ def get_html(browser, url, xpath_):
         html = browser.page_source
 
     if '暫無內容' in html:
-        time.sleep(2)
+        time.sleep(1)
         html_xpath = etree.HTML(html)
         return html, html_xpath
     if 'javdb' not in html:
@@ -64,7 +64,7 @@ def get_html(browser, url, xpath_):
         print('html_xpath为空，五秒后重试。')
         time.sleep(5)
         html, html_xpath = get_html(browser, url, xpath_)
-    time.sleep(2)
+    time.sleep(1)
     return html, html_xpath
 
 
