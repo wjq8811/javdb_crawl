@@ -45,5 +45,5 @@ def main(main_url,file_path):
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
-    file_path = r'C:\javdb\w\all'
+    file_path = r'C:\javdb\all'
     main(main_url,file_path)
