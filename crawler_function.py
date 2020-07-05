@@ -31,7 +31,11 @@ def crawler_actro_works(browser, main_url, actor_url):
     for page_num in range(1,100):
         actor_works_url = actor_url + '?page=' + str(page_num)
         html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
-        actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
+        try:
+            actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
+        except Exception as e:
+            work_list = crawler_actro_works(browser, main_url, actor_url)
+            return work_list
         print(actor_name)
         print(actor_works_url)
         works_num = len(html_xpath.xpath(xpath_))
@@ -51,11 +55,11 @@ def crawler_actro_works(browser, main_url, actor_url):
                 # print(fanhao,fanhao_url,'找不到可下载，已跳过')
         print('共找到' + str(len(tmp_work_list)) + '个番号')
         print('-' * 20)
+        num +=1
         if '下一頁' not in html :
             break
     print('共找到' + str(len(work_list)) + '个番号')
     print('-' * 20)
-        num +=1
     return work_list
 
 def crawler_work(browser, main_url,work_list,file_path):
