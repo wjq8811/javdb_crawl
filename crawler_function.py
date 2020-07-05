@@ -46,10 +46,10 @@ def crawler_actro_works(browser, main_url, actor_url):
             fanhao = html_xpath.xpath(
                 '//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
                                             # //*[@id="videos"]/div/div[3]/a/div[4]/span
-            if '可下载' in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div//text()'):
+            if '可下' in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div//text()'):
                 work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
                 tmp_work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
-                # print(fanhao,fanhao_url,'可下载，已保存url')
+                # print(fanhao,fanhao_url,'可下，已保存url')
             else:
                 pass
                 # print(fanhao,fanhao_url,'找不到可下载，已跳过')
