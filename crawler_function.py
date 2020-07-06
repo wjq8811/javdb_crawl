@@ -8,7 +8,8 @@ def crawler_all_actros(browser, main_url):
     actors_list = []
     for page_num in range(1, 31):  # 只有30页？
         actors_page_url = main_url + '/actors?page=' + str(page_num)
-        html, html_xpath = my_selenium.get_html(browser, actors_page_url, xpath_)
+        # html, html_xpath = my_selenium.get_html(browser, actors_page_url, xpath_)
+        html, html_xpath = my_selenium.get_html_by_requests(fanhao_url, xpath_)
         num = len(html_xpath.xpath('//*[@id="actors"]/div'))
         print(actors_page_url)
         print('第' + str(page_num) + '页，共' + str(num) + '名演员')
@@ -30,7 +31,8 @@ def crawler_actro_works(browser, main_url, actor_url):
     tmp_work_list = []
     for page_num in range(1,100):
         actor_works_url = actor_url + '?page=' + str(page_num)
-        html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
+        # html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
+        html, html_xpath = my_selenium.get_html_by_requests(actor_works_url, xpath_)
         # print(html)
         try:
             actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
@@ -86,7 +88,7 @@ def crawler_work(browser, main_url,work_list,file_path):
             print('html已存在，读取成功')
         else:
             # work_html, html_xpath = my_selenium.get_html(browser, fanhao_url, xpath_)
-            work_html, html_xpath = my_selenium.get_html_by_requests(url, xpath_)
+            work_html, html_xpath = my_selenium.get_html_by_requests(fanhao_url, xpath_)
             print('html爬取成功')
             if '暫無磁鏈下載' in work_html:
                 print('暫無磁鏈下載，跳过该番号。')
