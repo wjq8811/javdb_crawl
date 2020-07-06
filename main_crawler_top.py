@@ -23,12 +23,14 @@ def main(main_url, file_path):
     type_period = ['daily','weekly','monthly']
     for x in type_video:
         for y in type_period:
-            file_path = file_path + '\\' + x + '\\' + y
+            top_path = file_path + '\\' + x + '\\' + y
             top_url = 'https://javdb4.com/rankings/' + x + '?period=' + y
-            print('file_path:',file_path)
+            print('top_path:',top_path)
             print('top_url:',top_url)
-            function(file_path,header,top_url,main_url)
+            function(top_path,header,top_url,main_url)
+            print('文件保存在：'+top_path)
             print('-'*20)
+
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
