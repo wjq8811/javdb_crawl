@@ -20,7 +20,7 @@ def main(main_url,file_path):
     #options.add_argument('--proxy-server=http://192.168.2.1:1282') 
     capa = DesiredCapabilities.CHROME
     capa["pageLoadStrategy"] = "none" #懒加载模式，不等待页面加载完毕
-    browser = webdriver.Chrome(chrome_options=options,desired_capabilities=capa)
+    # browser = webdriver.Chrome(chrome_options=options,desired_capabilities=capa)
     #跳过验证
     # my_selenium.i_am_robot(browser, main_url)
 
