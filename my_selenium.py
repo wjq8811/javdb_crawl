@@ -7,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-# import requests
+import requests
 from lxml import etree
 import os
 import time
@@ -68,5 +68,37 @@ def get_html(browser, url, xpath_):
     return html, html_xpath
 
 
+def get_html_by_requests(url, xpath_):
+    headers ={'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'}
+    html = requests.get(url,headers=headers).text
+    # print(html)
+    if html.status_code == 200:
+        if '暫無內容' in html:
+            time.sleep(1)
+            html_xpath = etree.HTML(html)
+            return html, html_xpath
+        if 'javdb' not in html:
+            print('html中找不到javdb，五秒后重试。')
+            time.sleep(5)
+            html, html_xpath = get_html_by_requests(url, xpath_)
+        if html == '':
+            print('html为空，五秒后重试。')
+            time.sleep(5)
+            html, html_xpath = get_html_by_requests(url, xpath_)
+        html_xpath = etree.HTML(html)
+        if html_xpath.xpath(xpath_) is None:
+            print('html_xpath为空，五秒后重试。')
+            time.sleep(5)
+            html, html_xpath = get_html_by_requests(url, xpath_)
+        time.sleep(1)
+    else:
+        print('无法按时打开网页，五秒后重试。')
+        time.sleep(5)
+        get_html_by_requests(url, xpath_)
+    return html, html_xpath
+
 if __name__ == '__main__':
-    main()
+    url = 'https://javdb4.com'
+    xpath_ = '//*[@id="magnets-content"]'
+    html, html_xpath = get_html_by_requests(url, xpath_)
+    print(html)
