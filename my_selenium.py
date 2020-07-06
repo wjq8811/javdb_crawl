@@ -4,19 +4,21 @@ import requests
 from lxml import etree
 import os
 import time
+from cfscrape import get_cookie_string
 
 def steal_library_header(url):
-    print('\n正在尝试通过', url, '的5秒检测...')
-    for retry in range(10):
-        try:
-            cookie_value, user_agent = get_cookie_string(url, timeout=15)
-            print('通过5秒检测！\n')
-            return {'User-Agent': user_agent, 'Cookie': cookie_value}
-        except:
-            print('通过失败，重新尝试...')
-            continue
-    print('>>无法通过javlibrary的5秒检测：', url)
+    print('正在尝试通过', url, '的5秒检测...')
+    try:
+        cookie_value, user_agent = get_cookie_string(url, timeout=15)
+        header = {'User-Agent': user_agent, 'Cookie': cookie_value}
+        print('通过5秒检测！')
+    except Exception as e:
+        print('通过失败，重新尝试...')
+        time.sleep(3)
+        header = steal_library_header(url)
     print('-'*20)
+    return header
+
 
 
 def get_html_by_requests(header,url, xpath_):
