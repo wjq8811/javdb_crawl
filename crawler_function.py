@@ -106,7 +106,8 @@ def crawler_work(browser, main_url,work_list,file_path):
 def crawler_top_works(browser,top_url,main_url):
     xpath_ = '//*[@id="videos"]/div/div'
     work_list = []
-    html, html_xpath = my_selenium.get_html(browser, top_url, xpath_)
+    # html, html_xpath = my_selenium.get_html(browser, top_url, xpath_)
+    html, html_xpath = my_selenium.get_html_by_requests(url, xpath_)
     works_num = len(html_xpath.xpath(xpath_))
     for y in range(1,works_num+1):
         fanhao_url = main_url + \
@@ -137,7 +138,8 @@ def crawler_top_work(browser, main_url,work_list,file_path):
             work_html = file_io.read_all_text(work_html_path)
             print('html已存在，读取成功')
         else:
-            work_html, html_xpath = my_selenium.get_html(browser, fanhao_url, xpath_)
+            # work_html, html_xpath = my_selenium.get_html(browser, fanhao_url, xpath_)
+            work_html, html_xpath = my_selenium.get_html_by_requests(url, xpath_)
             print('html爬取成功')
             if '暫無磁鏈下載' in work_html:
                 print('暫無磁鏈下載，跳过该番号。')
