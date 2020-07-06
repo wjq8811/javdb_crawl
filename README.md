@@ -29,6 +29,10 @@ pip install requests
 
 pip install lxml
 
+4 安装 cfscrape 模块
+
+pip install cfscrape
+
 一些声明：
 
 此工具仅用于学习交流使用，请勿用做商业用途
