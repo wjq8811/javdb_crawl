@@ -3,13 +3,12 @@
 import file_io,my_selenium,html_to_json
 import os
 
-def crawler_all_actros(browser, main_url):
+def crawler_all_actros(header, main_url):
     xpath_ = '//*[@id="actors"]/div'
     actors_list = []
     for page_num in range(1, 31):  # 只有30页？
         actors_page_url = main_url + '/actors?page=' + str(page_num)
-        # html, html_xpath = my_selenium.get_html(browser, actors_page_url, xpath_)
-        html, html_xpath = my_selenium.get_html_by_requests(fanhao_url, xpath_)
+        html, html_xpath = my_selenium.get_html_by_requests(header,actors_page_url, xpath_)
         num = len(html_xpath.xpath('//*[@id="actors"]/div'))
         print(actors_page_url)
         print('第' + str(page_num) + '页，共' + str(num) + '名演员')
@@ -24,20 +23,19 @@ def crawler_all_actros(browser, main_url):
     print('-' * 20)
     return actors_list
 
-def crawler_actro_works(browser, main_url, actor_url):
+def crawler_actro_works(header, main_url, actor_url):
     xpath_ = '//*[@id="videos"]/div/div/a'
     num = 1
     work_list = []
-    tmp_work_list = []
     for page_num in range(1,100):
+        tmp_work_list = []
         actor_works_url = actor_url + '?page=' + str(page_num)
-        # html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
-        html, html_xpath = my_selenium.get_html_by_requests(actor_works_url, xpath_)
+        html, html_xpath = my_selenium.get_html_by_requests(header,actor_works_url, xpath_)
         # print(html)
         try:
             actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
         except Exception as e:
-            work_list = crawler_actro_works(browser, main_url, actor_url)
+            work_list = crawler_actro_works(header, main_url, actor_url)
             return work_list
         print(actor_name)
         print(actor_works_url)
@@ -68,7 +66,7 @@ def crawler_actro_works(browser, main_url, actor_url):
     print('-' * 20)
     return work_list
 
-def crawler_work(browser, main_url,work_list,file_path):
+def crawler_work(header, main_url,work_list,file_path):
     xpath_ = '//*[@id="magnets-content"]'
     num = 1
     nums = len(work_list)
@@ -87,8 +85,7 @@ def crawler_work(browser, main_url,work_list,file_path):
             work_html = file_io.read_all_text(work_html_path)
             print('html已存在，读取成功')
         else:
-            # work_html, html_xpath = my_selenium.get_html(browser, fanhao_url, xpath_)
-            work_html, html_xpath = my_selenium.get_html_by_requests(fanhao_url, xpath_)
+            work_html, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
             print('html爬取成功')
             if '暫無磁鏈下載' in work_html:
                 print('暫無磁鏈下載，跳过该番号。')
@@ -103,11 +100,10 @@ def crawler_work(browser, main_url,work_list,file_path):
         html_to_json.info_to_json(work_html, fanhao, actor_path)
         print('-' * 20)
 
-def crawler_top_works(browser,top_url,main_url):
+def crawler_top_works(header,top_url,main_url):
     xpath_ = '//*[@id="videos"]/div/div'
     work_list = []
-    # html, html_xpath = my_selenium.get_html(browser, top_url, xpath_)
-    html, html_xpath = my_selenium.get_html_by_requests(url, xpath_)
+    html, html_xpath = my_selenium.get_html_by_requests(header,top_url, xpath_)
     works_num = len(html_xpath.xpath(xpath_))
     for y in range(1,works_num+1):
         fanhao_url = main_url + \
@@ -120,7 +116,7 @@ def crawler_top_works(browser,top_url,main_url):
     return work_list
 
 #上个页面没有名字，得重写
-def crawler_top_work(browser, main_url,work_list,file_path):
+def crawler_top_work(header, main_url,work_list,file_path):
     xpath_ = '//*[@id="magnets-content"]'
     num = 1
     nums = len(work_list)
@@ -138,8 +134,7 @@ def crawler_top_work(browser, main_url,work_list,file_path):
             work_html = file_io.read_all_text(work_html_path)
             print('html已存在，读取成功')
         else:
-            # work_html, html_xpath = my_selenium.get_html(browser, fanhao_url, xpath_)
-            work_html, html_xpath = my_selenium.get_html_by_requests(url, xpath_)
+            work_html, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
             print('html爬取成功')
             if '暫無磁鏈下載' in work_html:
                 print('暫無磁鏈下載，跳过该番号。')
