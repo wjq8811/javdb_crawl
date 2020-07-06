@@ -20,7 +20,13 @@ def steal_library_header(url):
 
 
 def get_html_by_requests(header,url, xpath_):
-    html = requests.get(url,headers=header)
+    try:
+        html = requests.get(url,headers=header)
+    except Exception as e:
+        print('无法按时打开网页，五秒后重试。')
+        time.sleep(5)
+        html, html_xpath = get_html_by_requests(header,url, xpath_)
+
     # print(url)
     # print(html)
     if html.status_code == 200:
@@ -42,7 +48,7 @@ def get_html_by_requests(header,url, xpath_):
             print('html_xpath为空，五秒后重试。')
             time.sleep(5)
             html, html_xpath = get_html_by_requests(header,url, xpath_)
-        time.sleep(1)
+        time.sleep(2)
     else:
         print('无法按时打开网页，五秒后重试。')
         time.sleep(5)
