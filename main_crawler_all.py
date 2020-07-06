@@ -22,7 +22,7 @@ def main(main_url,file_path):
     capa["pageLoadStrategy"] = "none" #懒加载模式，不等待页面加载完毕
     browser = webdriver.Chrome(chrome_options=options,desired_capabilities=capa)
     #跳过验证
-    my_selenium.i_am_robot(browser, main_url)
+    # my_selenium.i_am_robot(browser, main_url)
 
     # try:
     #抓取所有演员地址并保存
