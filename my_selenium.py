@@ -70,9 +70,10 @@ def get_html(browser, url, xpath_):
 
 def get_html_by_requests(url, xpath_):
     headers ={'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36'}
-    html = requests.get(url,headers=headers).text
+    html = requests.get(url,headers=headers)
     # print(html)
     if html.status_code == 200:
+        html = html.text
         if '暫無內容' in html:
             time.sleep(1)
             html_xpath = etree.HTML(html)
