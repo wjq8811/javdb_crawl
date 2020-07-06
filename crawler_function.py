@@ -31,6 +31,7 @@ def crawler_actro_works(browser, main_url, actor_url):
     for page_num in range(1,100):
         actor_works_url = actor_url + '?page=' + str(page_num)
         html, html_xpath = my_selenium.get_html(browser, actor_works_url, xpath_)
+        # print(html)
         try:
             actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
         except Exception as e:
@@ -43,16 +44,19 @@ def crawler_actro_works(browser, main_url, actor_url):
         for y in range(1,works_num+1):
             fanhao_url = main_url + \
                 html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/@href')[0]
-            fanhao = html_xpath.xpath(
-                '//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
-                                            # //*[@id="videos"]/div/div[3]/a/div[4]/span
-            if '可下' in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div//text()'):
+            fanhao = html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
+            # //*[@id="videos"]/div/div[3]/a/div[4]/span
+            text_tmp = ''
+            for x in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']//text()'):
+                text_tmp += x
+            if '可下' in text_tmp:
                 work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
                 tmp_work_list.append(actor_name+'|'+fanhao+'|'+fanhao_url)
                 # print(fanhao,fanhao_url,'可下，已保存url')
             else:
                 pass
                 # print(fanhao,fanhao_url,'找不到可下载，已跳过')
+                # print(text_tmp)
         print('共找到' + str(len(tmp_work_list)) + '个番号')
         print('-' * 20)
         num +=1
