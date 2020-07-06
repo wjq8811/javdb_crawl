@@ -9,17 +9,17 @@ import os
 
 def main(main_url,file_path):
     # 定义浏览器，不加载图片，跳过认证
-    options = webdriver.ChromeOptions()
-    prefs = {
-        'profile.default_content_setting_values': {
-            'images': 2
-        }
-    }
-    options.add_experimental_option('prefs', prefs)
+    # options = webdriver.ChromeOptions()
+    # prefs = {
+        # 'profile.default_content_setting_values': {
+            # 'images': 2
+        # }
+    # }
+    # options.add_experimental_option('prefs', prefs)
     #设置代理，不需要的可以注释掉
     #options.add_argument('--proxy-server=http://192.168.2.1:1282') 
-    capa = DesiredCapabilities.CHROME
-    capa["pageLoadStrategy"] = "none" #懒加载模式，不等待页面加载完毕
+    # capa = DesiredCapabilities.CHROME
+    # capa["pageLoadStrategy"] = "none" #懒加载模式，不等待页面加载完毕
     # browser = webdriver.Chrome(chrome_options=options,desired_capabilities=capa)
     #跳过验证
     # my_selenium.i_am_robot(browser, main_url)
