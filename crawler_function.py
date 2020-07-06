@@ -8,7 +8,7 @@ def crawler_all_actros(header, main_url):
     actors_list = []
     for page_num in range(1, 31):  # 只有30页？
         actors_page_url = main_url + '/actors?page=' + str(page_num)
-        html, html_xpath = my_selenium.get_html_by_requests(header,actors_page_url, xpath_)
+        html, html_text, html_xpath = my_selenium.get_html_by_requests(header,actors_page_url, xpath_)
         num = len(html_xpath.xpath('//*[@id="actors"]/div'))
         print(actors_page_url)
         print('第' + str(page_num) + '页，共' + str(num) + '名演员')
@@ -30,7 +30,7 @@ def crawler_actro_works(header, main_url, actor_url):
     for page_num in range(1,100):
         tmp_work_list = []
         actor_works_url = actor_url + '?page=' + str(page_num)
-        html, html_xpath = my_selenium.get_html_by_requests(header,actor_works_url, xpath_)
+        html, html_text, html_xpath = my_selenium.get_html_by_requests(header,actor_works_url, xpath_)
         # print(html)
         try:
             actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
@@ -57,12 +57,12 @@ def crawler_actro_works(header, main_url, actor_url):
                 pass
                 # print(fanhao,fanhao_url,'找不到可下载，已跳过')
                 # print(text_tmp)
-        print('共找到' + str(len(tmp_work_list)) + '个番号')
+        print('共找到' + str(len(tmp_work_list)) + '个可下载作品')
         print('-' * 20)
         num +=1
-        if '下一頁' not in html :
+        if '下一頁' not in html_text :
             break
-    print('共找到' + str(len(work_list)) + '个番号')
+    print('共找到' + str(len(work_list)) + '个可下载作品')
     print('-' * 20)
     return work_list
 
@@ -82,12 +82,12 @@ def crawler_work(header, main_url,work_list,file_path):
         # 3保存每个作品的html
         work_html_path = actor_path + '\\' + fanhao + '.html'
         if os.path.exists(work_html_path):
-            work_html = file_io.read_all_text(work_html_path)
+            html_text = file_io.read_all_text(work_html_path)
             print('html已存在，读取成功')
         else:
-            work_html, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
+            html, html_text, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
             print('html爬取成功')
-            if '暫無磁鏈下載' in work_html:
+            if '暫無磁鏈下載' in html_text:
                 print('暫無磁鏈下載，跳过该番号。')
                 print('-' * 20)
                 continue
@@ -95,15 +95,15 @@ def crawler_work(header, main_url,work_list,file_path):
                 print('找不到磁鏈下載，跳过该番号。')
                 print('-' * 20)
                 continue
-            file_io.write_all_text(work_html_path, work_html)
+            file_io.write_all_text(work_html_path, html_text)
             print('html保存成功')
-        html_to_json.info_to_json(work_html, fanhao, actor_path)
+        html_to_json.info_to_json(html_text, fanhao, actor_path)
         print('-' * 20)
 
 def crawler_top_works(header,top_url,main_url):
     xpath_ = '//*[@id="videos"]/div/div'
     work_list = []
-    html, html_xpath = my_selenium.get_html_by_requests(header,top_url, xpath_)
+    html, html_text, html_xpath = my_selenium.get_html_by_requests(header,top_url, xpath_)
     works_num = len(html_xpath.xpath(xpath_))
     for y in range(1,works_num+1):
         fanhao_url = main_url + \
@@ -131,12 +131,12 @@ def crawler_top_work(header, main_url,work_list,file_path):
         # 3保存每个作品的html
         work_html_path = file_path + '\\' + fanhao + '.html'
         if os.path.exists(work_html_path):
-            work_html = file_io.read_all_text(work_html_path)
+            html_text = file_io.read_all_text(work_html_path)
             print('html已存在，读取成功')
         else:
-            work_html, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
+            html, html_text, html_xpath = my_selenium.get_html_by_requests(header,fanhao_url, xpath_)
             print('html爬取成功')
-            if '暫無磁鏈下載' in work_html:
+            if '暫無磁鏈下載' in html_text:
                 print('暫無磁鏈下載，跳过该番号。')
                 print('-' * 20)
                 continue
@@ -144,9 +144,9 @@ def crawler_top_work(header, main_url,work_list,file_path):
                 print('找不到磁鏈下載，跳过该番号。')
                 print('-' * 20)
                 continue
-            file_io.write_all_text(work_html_path, work_html)
+            file_io.write_all_text(work_html_path, html_text)
             print('html保存成功')
-        html_to_json.info_to_json(work_html, fanhao, file_path)
+        html_to_json.info_to_json(html_text, fanhao, file_path)
         print('-' * 20)
 
 def main():
