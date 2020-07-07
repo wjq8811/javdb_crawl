@@ -12,7 +12,7 @@ def main(path):
     sheet1 = wb[wb.sheetnames[0]]
     
     
-    list1_1 = ['演员','番号','时间','标题','评分','类型','海报','预告片','链接信息','链接时间','中文字幕','链接地址']
+    list1_1 = ['演员','番号','时间','标题','时间','评分','类型','海报','预告片','截图','链接信息','链接时间','中文字幕','链接地址']
     sheet1.append(list1_1)
 
     for root,dirs,files in os.walk(path):
@@ -58,6 +58,19 @@ def main(path):
                     if len(load_dict['trailer']):
                         trailer = 'https://' + load_dict['trailer'][0]#预告片
 
+                    #片长'runtimeg':runtimeg
+                    runtimeg = ''
+                    if len(load_dict['runtimeg']):
+                        runtimeg = load_dict['runtimeg'][0]
+
+                    #截图列表'images_list':images_list
+                    images = ''
+                    for x in load_dict['images_list']:#类型
+                        images += '|' + x
+                    if images != '':
+                        images = images[1:]
+
+
                     for magnets in load_dict['magnet_list']:
                         magnet_link,magnet_time,magnet_info = magnets
 
@@ -67,17 +80,17 @@ def main(path):
                             is_zh = '是'
 
 
-                        tmp_list = [performer,fanhao,time,title,scoring,type_,poster,trailer,magnet_info,magnet_time,is_zh,magnet_link]
+                        tmp_list = [performer,fanhao,time,title,runtimeg,scoring,type_,poster,trailer,images,magnet_info,magnet_time,is_zh,magnet_link]
                         sheet1.append(tmp_list)
                         for x in tmp_list:
                             print(x.encode('gbk', 'ignore').decode('gbk'))
     now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-    new_name = './'+ str(now) +'.xlsx'
+    new_name = path + '\\' + str(now) +'.xlsx'
     wb.save(filename=new_name)
-    print('保存成功_'+now+'.xlsx')
+    print('文件保存在'+ new_name)
 
 
 
 if __name__ == '__main__':
-    path = r'C:\Users\w\Desktop\javdb_crawl\file\all'
+    path = r'C:\javdb\all'
     main(path)
