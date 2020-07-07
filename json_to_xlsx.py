@@ -22,54 +22,18 @@ def main(path):
                 print(json_path)
                 with open(json_path,'r', encoding='utf-8') as load_f:
                     load_dict = json.load(load_f)
-                    title = ''
-                    if len(load_dict['title']):
-                        title =  load_dict['title'][0]
 
-                    fanhao = ''
-                    if len(load_dict['fanhao']):
-                        fanhao = load_dict['fanhao'][0]
-
-                    time = ''
-                    if len(load_dict['time']):
-                        time =  load_dict['time'][0]
-
-                    scoring = ''
-                    if len(load_dict['scoring']):
-                        scoring = load_dict['scoring'][0].replace(' ','')#评分
-
-                    type_ = ''
-                    for x in load_dict['type_']:#类型
-                        type_ += '、' + x
-                    if type_ != '':
-                        type_ = type_[1:]
-
-                    performer = ''
-                    for x in load_dict['performer']:#演员
-                        performer += '、' + x
-                    if performer != '':
-                        performer = performer[1:]
-
-                    poster = ''
-                    if len(load_dict['scoring']):
-                        poster = load_dict['poster'][0]#海报
-
-                    trailer = ''
-                    if len(load_dict['trailer']):
-                        trailer = 'https://' + load_dict['trailer'][0]#预告片
-
-                    #片长'runtimeg':runtimeg
-                    runtimeg = ''
-                    if len(load_dict['runtimeg']):
-                        runtimeg = load_dict['runtimeg'][0]
-
+                    title = ''.join(load_dict['title'])
+                    fanhao = ''.join(load_dict['fanhao'])
+                    time = ''.join(load_dict['time'])
+                    scoring = ''.join(load_dict['scoring'])#评分 
+                    type_ = '、'.join(load_dict['type_'])
+                    performer = '、'.join(load_dict['performer'])#演员
+                    poster = ''.join(load_dict['poster'])#海报
+                    trailer = ''.join(load_dict['trailer'])#预告片
+                    runtimeg = ''.join(load_dict['runtimeg'])#片长
                     #截图列表'images_list':images_list
-                    images = ''
-                    for x in load_dict['images_list']:#类型
-                        images += '|' + x
-                    if images != '':
-                        images = images[1:]
-
+                    images = '|'.join(load_dict['images_list'])
 
                     for magnets in load_dict['magnet_list']:
                         magnet_link,magnet_time,magnet_info = magnets
@@ -79,11 +43,11 @@ def main(path):
                         if ('字幕' in magnet_info) or ('中文' in magnet_info):
                             is_zh = '是'
 
-
                         tmp_list = [performer,fanhao,time,title,runtimeg,scoring,type_,poster,trailer,images,magnet_info,magnet_time,is_zh,magnet_link]
                         sheet1.append(tmp_list)
                         for x in tmp_list:
                             print(x.encode('gbk', 'ignore').decode('gbk'))
+                        print('_'*20)
     now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     new_name = path + '\\' + str(now) +'.xlsx'
     wb.save(filename=new_name)
