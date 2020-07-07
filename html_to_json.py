@@ -153,41 +153,64 @@ def html_to_info_by_copy_javsdt(html_web_):
     if len(preview_video)>0:
         trailer = ['https:' + preview_video[0]]
     else:
-        trailer = [preview_video]
+        trailer = []
     # print(trailer)
 
-    #磁力链接
-    magnet_list = re.findall(r'(magnet:\?xt=.+?)"', html_web_)
-    # print(magnet_list)
+    # print(html_web_)
+    # magnet_tmp = re.search(r'>磁鏈<(.+?)</article>', html_web_, re.DOTALL).group(1)
+    magnet_tmp = re.findall(r'<td class="magnet-name">.+?</span></td>', html_web_, re.DOTALL)
+    # print(magnet_tmp)
+    magnet_list = []
+    for x in magnet_tmp:
+        # print(x.replace(' ','').replace('\n',''))
+        magnet_link = re.findall(r'"(magnet:\?xt=.+?)"',x)
+        magnet_name = re.findall(r'<span>(.+?)</span>',x)
+        magnet_info = re.findall(r'small">(.+?)</span>',x)
+        magnet_size = re.findall(r'\(.?(\d.+?GB)',x)
+        magnet_time = re.findall(r'time">(.+?)</span>',x)
+
+        magnet_link = ''.join(magnet_link)
+        magnet_info = '|'.join(magnet_name+magnet_info+magnet_size)
+        magnet_time = ''.join(magnet_time)
+
+        magnet_list.append([magnet_link,magnet_time,magnet_info])
+
+
     return title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg
 
 
 
 def info_to_json(one_page_html, fanhao: str,actors_path: str):
     path_file_json = actors_path + '\\' + fanhao + '.json'
-    if os.path.exists(path_file_json):
-        print('json已存在')
-        return
-    title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info(one_page_html)
+    # if os.path.exists(path_file_json):
+    #     print('json已存在')
+    #     return
+    title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info_by_copy_javsdt(one_page_html)
     d = {'title': title, 'fanhao': fanhao,
             'time': time, 'scoring': scoring,'runtimeg':runtimeg,
             'type_': type_, 'performer': performer,
             'poster': poster, 'trailer': trailer,
             'magnet_list': magnet_list,'images_list':images_list}
     file_io.write_all_text(path_file_json, json.dumps(d, ensure_ascii=False))
-    # print('json保存成功')
+    print(path_file_json)
+    print('json保存成功')
+    print('-'*20)
 
 
 
-def main():
-    work_html_path = r'C:\javdb\all\高崎聖子(高橋しょう子)\MIDE-777.html'
-    work_html = file_io.read_all_text(work_html_path)
-    # print(work_html.encode('gbk', 'ignore').decode('gbk'))
-    # title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list = html_to_info(work_html)
-    # for x in [title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list]:
-    #     print(x)
-    title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info_by_copy_javsdt(work_html)
-    # print(title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg)
+def main(path):
+    for root,dirs,files in os.walk(path):
+        for name in files:
+            html_path = os.path.join(root,name)
+            if '.html' in html_path:
+                actors_path = root
+                fanhao = name.replace('.html','')
+                one_page_html = file_io.read_all_text(html_path)
+                info_to_json(one_page_html, fanhao,actors_path)
+
+
+
 
 if __name__ == '__main__':
-    main()
+    path = r'C:\javdb\all'
+    main(path)
