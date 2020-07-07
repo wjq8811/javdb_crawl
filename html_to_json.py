@@ -187,7 +187,7 @@ def main():
     # for x in [title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list]:
     #     print(x)
     title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info_by_copy_javsdt(work_html)
-    print(title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg)
+    # print(title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg)
 
 if __name__ == '__main__':
     main()
