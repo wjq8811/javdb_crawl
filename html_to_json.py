@@ -165,17 +165,17 @@ def html_to_info_by_copy_javsdt(html_web_):
 
 def info_to_json(one_page_html, fanhao: str,actors_path: str):
     path_file_json = actors_path + '\\' + fanhao + '.json'
-    if os.path.exists(path_file_json):
-        print('json已存在')
-        return
-    title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info(one_page_html)
+    # if os.path.exists(path_file_json):
+    #     print('json已存在')
+    #     return
+    title,fanhao,time,scoring,type_,performer,poster,trailer,magnet_list,images_list,runtimeg = html_to_info_by_copy_javsdt(one_page_html)
     d = {'title': title, 'fanhao': fanhao,
             'time': time, 'scoring': scoring,'runtimeg':runtimeg,
             'type_': type_, 'performer': performer,
             'poster': poster, 'trailer': trailer,
             'magnet_list': magnet_list,'images_list':images_list}
     file_io.write_all_text(path_file_json, json.dumps(d, ensure_ascii=False))
-    # print('json保存成功')
+    print('json保存成功')
 
 
 
