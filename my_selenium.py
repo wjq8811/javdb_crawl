@@ -35,7 +35,7 @@ def get_html_by_requests(header,url, xpath_):
         if '暫無內容' in html_text:
             time.sleep(1)
             html_xpath = etree.HTML(html_text)
-            return html_text, html_xpath
+            return html,html_text, html_xpath
         if 'javdb' not in html_text:
             print('html中找不到javdb，五秒后重试。')
             time.sleep(5)
@@ -53,7 +53,7 @@ def get_html_by_requests(header,url, xpath_):
     else:
         print('响应错误，五秒后重试。')
         time.sleep(5)
-        html_text, html_xpath = get_html_by_requests(header,url, xpath_)
+        html, html_text, html_xpath = get_html_by_requests(header,url, xpath_)
     return html, html_text, html_xpath
 
 if __name__ == '__main__':
