@@ -9,7 +9,7 @@ import file_io,my_selenium,crawler_function
 def function(header,main_url,actor_url,file_path):
     work_list = crawler_function.crawler_actro_works(header, main_url,actor_url)
     actor_name = work_list[0].split('|')[0]
-    work_list_path = file_path + '\\' + actor_name + '_work_list.txt'
+    work_list_path = file_path + '\\' + actor_name +'\\' + actor_name + '_work_list.txt'
     file_io.write_all_lines(work_list_path, work_list)
     #读取本地所有作品地址并保存
     work_list = file_io.read_all_lines(work_list_path)
