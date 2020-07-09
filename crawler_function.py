@@ -33,8 +33,10 @@ def crawler_actro_works(header, main_url, actor_url):
         html, html_text, html_xpath = my_selenium.get_html_by_requests(header,actor_works_url, xpath_)
         # print(html)
         try:
-            actor_name = html_xpath.xpath('/html/body/section/div/div[3]/div[2]/h2/span[1]/text()')[0]
+        # /html/head/title/text()  竹內乃愛(竹内乃愛) | JavDB - 成人影片資料庫 - 磁力鏈接分享
+            actor_name = html_xpath.xpath('/html/head/title/text()')[0].split('|')[0].replace(' ','')
         except Exception as e:
+            print('actor_name有误')
             work_list = crawler_actro_works(header, main_url, actor_url)
             return work_list
         print(actor_name)
