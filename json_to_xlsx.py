@@ -56,5 +56,5 @@ def main(path):
 
 
 if __name__ == '__main__':
-    path = r'C:\javdb\all'
+    path = r'Y:\javdb\top'
     main(path)
