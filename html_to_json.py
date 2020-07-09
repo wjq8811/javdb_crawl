@@ -83,7 +83,7 @@ def html_to_info_by_copy_javsdt(html_web_):
     title = re.search(r'strong>(.+?)</', html_web).group(1).replace(' 中文字幕 ', '')
     # 去除xml文档和windows路径不允许的特殊字符 &<>  \/:*?"<>|
     title = replace_xml_win(title)
-    print('影片标题：', title)
+    # print('影片标题：', title)
     # title的开头是车牌号，想要后面的纯标题
     car_titleg = re.search(r'(.+?) (.+)', title)
 
