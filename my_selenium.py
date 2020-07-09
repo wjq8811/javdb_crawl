@@ -28,8 +28,6 @@ def get_html_by_requests(header,url, xpath_):
         print('无法正确打开网页，五秒后重试。')
         time.sleep(5)
         html, html_text, html_xpath = get_html_by_requests(header,url, xpath_)
-    # print(url)
-    # print(html)
     if html.status_code == 200:
         html_text = html.text
         if '暫無內容' in html_text:
