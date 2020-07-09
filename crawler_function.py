@@ -79,7 +79,7 @@ def crawler_work(header, main_url,work_list,file_path):
         print(actor_name,fanhao)
         print(fanhao_url)
         #判断文件夹是否存在
-        actor_path = file_path + '\\' + actor_name
+        actor_path = file_path + '\\' + actor_name + '\\' + fanhao
         file_io.create_dir_if_not_exist(actor_path)
         # 3保存每个作品的html
         work_html_path = actor_path + '\\' + fanhao + '.html'
