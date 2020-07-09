@@ -18,9 +18,13 @@ def main(main_url,file_path):
         file_io.write_all_lines(actors_list_path, actors_list)
 
     for tmp in actors_list:
-        actor_name,actor_url = tmp.split('|')
-        print(actor_name,actor_url)
-        main_crawler_one_artor_works.function(header,main_url,actor_url,file_path)
+        try:
+            actor_name,actor_url = tmp.split('|')
+            print(actor_name,actor_url)
+            main_crawler_one_artor_works.function(header,main_url,actor_url,file_path)
+        except Exception as e:
+            continue
+
 
 
     # except Exception as e:
@@ -30,5 +34,5 @@ def main(main_url,file_path):
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
-    file_path = r'C:\javdb\all'
+    file_path = r'Y:\javdb\all'
     main(main_url,file_path)
