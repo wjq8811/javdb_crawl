@@ -21,6 +21,8 @@ def main(main_url,file_path):
         actor_name,actor_url = tmp.split('|')
         print(actor_name,actor_url)
         main_crawler_one_artor_works.function(header,main_url,actor_url,file_path)
+
+
     # except Exception as e:
     #     main(main_url,file_path)
     # print('文件保存在：'+file_path)
@@ -30,4 +32,3 @@ if __name__ == '__main__':
     main_url = 'https://javdb4.com'
     file_path = r'C:\javdb\all'
     main(main_url,file_path)
-    
