@@ -118,7 +118,7 @@ def crawler_top_works(header,top_url,main_url):
     return work_list
 
 #上个页面没有名字，得重写
-def crawler_top_work(header, main_url,work_list,file_path):
+def crawler_top_work(header, main_url,work_list,file_path_):
     xpath_ = '//*[@id="magnets-content"]'
     num = 1
     nums = len(work_list)
@@ -128,6 +128,7 @@ def crawler_top_work(header, main_url,work_list,file_path):
         num +=1
         print(fanhao)
         print(fanhao_url)
+        file_path = file_path_ + '\\' + fanhao
         #判断文件夹是否存在
         file_io.create_dir_if_not_exist(file_path)
         # 3保存每个作品的html
@@ -150,6 +151,44 @@ def crawler_top_work(header, main_url,work_list,file_path):
             print('html保存成功')
         html_to_json.info_to_json(html_text, fanhao, file_path)
         print('-' * 20)
+
+def crawler_serise_works(header,serise_url,main_url):
+    xpath_ = '//*[@id="videos"]/div/div/a'
+    num = 1
+    work_list = []
+    for page_num in range(1,100):
+        tmp_work_list = []
+        works_url = serise_url + '?page=' + str(page_num)
+        html, html_text, html_xpath = my_selenium.get_html_by_requests(header,works_url, xpath_)
+        # print(html)
+        print(works_url)
+        works_num = len(html_xpath.xpath(xpath_))
+        print('第' + str(page_num) + '页，共' + str(works_num) + '作品')
+        for y in range(1,works_num+1):
+            fanhao_url = main_url + \
+                html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/@href')[0]
+            fanhao = html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']/a/div[2]/text()')[0]
+            text_tmp = ''
+            for x in html_xpath.xpath('//*[@id="videos"]/div/div[' + str(y) + ']//text()'):
+                text_tmp += x
+            if '可下' in text_tmp:
+                work_list.append(fanhao+'|'+fanhao_url)
+                tmp_work_list.append(fanhao+'|'+fanhao_url)
+                # print(fanhao,fanhao_url,'可下，已保存url')
+            else:
+                pass
+                # print(fanhao,fanhao_url,'找不到可下载，已跳过')
+                # print(text_tmp)
+        print('共找到' + str(len(tmp_work_list)) + '个可下载作品')
+        print('-' * 20)
+        num +=1
+        if '下一頁' not in html_text :
+            break
+    print('共找到' + str(len(work_list)) + '个可下载作品')
+    print('-' * 20)
+    return work_list
+
+
 
 def main():
     pass
