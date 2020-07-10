@@ -20,6 +20,11 @@ def read_all_lines(path: str):
             lines[i] = lines[i].replace('\r', '')
         return lines
 
+def write_all_text_add(path: str, content: str):
+    create_dir_if_not_exist(os.path.dirname(path))
+    with open(path, 'a', encoding='utf-8')as f:
+        f.write(content+'\n')
+
 
 def write_all_text(path: str, content: str):
     create_dir_if_not_exist(os.path.dirname(path))
