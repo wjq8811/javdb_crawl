@@ -34,5 +34,5 @@ def main(main_url,file_path):
 
 if __name__ == '__main__':
     main_url = 'https://javdb4.com'
-    file_path = r'Y:\javdb\censored'
+    file_path = r'Z:\censored'
     main(main_url,file_path)
