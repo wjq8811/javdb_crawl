@@ -68,16 +68,16 @@ def main(file_path):
 
                     # for x in tmp_list:
                     #     print(x.encode('gbk', 'ignore').decode('gbk'))
-            num +=1
-            if num == 50:
-                print('num:',num)
-                wb = openpyxl.load_workbook(excel_name)
-                sheet1 = wb[wb.sheetnames[0]]
-                for fanhao_list_ in artor_list:
-                    sheet1.append(fanhao_list_)
-                wb.save(filename=excel_name)
-                num = 0 
-                artor_list = []
+            # num +=1
+            # if num == 50:
+            #     print('num:',num)
+            #     wb = openpyxl.load_workbook(excel_name)
+            #     sheet1 = wb[wb.sheetnames[0]]
+            #     for fanhao_list_ in artor_list:
+            #         sheet1.append(fanhao_list_)
+            #     wb.save(filename=excel_name)
+            #     num = 0 
+            #     artor_list = []
 
     wb = openpyxl.load_workbook(excel_name)
     sheet1 = wb[wb.sheetnames[0]]
