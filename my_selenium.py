@@ -5,11 +5,15 @@ from lxml import etree
 import os
 import time
 from cfscrape import get_cookie_string
+proxies = {
+      "socks5": "socks5://127.0.0.1:1080",
+      # "https": "http://127.0.0.1:1081",
+        }
 
 def steal_library_header(url):
     print('正在尝试通过', url, '的5秒检测...')
     try:
-        cookie_value, user_agent = get_cookie_string(url, timeout=15)
+        cookie_value, user_agent = get_cookie_string(url,proxies=proxies,timeout=15)
         header = {'User-Agent': user_agent, 'Cookie': cookie_value}
         print('通过5秒检测！')
     except Exception as e:
@@ -23,7 +27,7 @@ def steal_library_header(url):
 
 def get_html_by_requests(header,url, xpath_):
     try:
-        html = requests.get(url,headers=header, timeout=15)
+        html = requests.get(url,headers=header,proxies=proxies,timeout=15)
     except Exception as e:
         print('无法正确打开网页，五秒后重试。')
         time.sleep(5)
@@ -47,7 +51,7 @@ def get_html_by_requests(header,url, xpath_):
             print('html_xpath为空，五秒后重试。')
             time.sleep(5)
             html, html_text, html_xpath = get_html_by_requests(header,url, xpath_)
-        time.sleep(0.5)#成功后间隔时间
+        time.sleep(0.3)#成功后间隔时间
     else:
         print('响应错误，五秒后重试。')
         time.sleep(5)
