@@ -6,7 +6,7 @@ import os
 def crawler_all_actros(header, main_url):
     xpath_ = '//*[@id="actors"]/div'
     actors_list = []
-    for page_num in range(1, 31):  # 只有30页？
+    for page_num in range(1, 50):  # 只有30页？
         actors_page_url = main_url + '/actors?page=' + str(page_num)
         html, html_text, html_xpath = my_selenium.get_html_by_requests(header,actors_page_url, xpath_)
         num = len(html_xpath.xpath('//*[@id="actors"]/div'))
@@ -19,6 +19,8 @@ def crawler_all_actros(header, main_url):
             actor = html_xpath.xpath(
                 '//*[@id="actors"]/div[' + str(x) + ']/a/@title')[0]
             actors_list.append(actor+'|'+next_url)
+        if '下一頁' not in html_text :
+            break
     print('共找到' + str(len(actors_list)) + '名演员')
     print('-' * 20)
     return actors_list
