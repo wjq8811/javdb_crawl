@@ -21,6 +21,7 @@ def main(main_url,file_path):
         try:
             actor_name,actor_url = tmp.split('|')
             print(actor_name,actor_url)
+            #ToDo 这里的actor_name名字和html中'演员：XXXXX'不太一样
             main_crawler_one_artor_works.function(header,main_url,actor_url,file_path)
         except Exception as e:
             continue
