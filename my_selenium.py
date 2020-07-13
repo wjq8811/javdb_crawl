@@ -6,7 +6,7 @@ import os
 import time
 from cfscrape import get_cookie_string
 proxies = {
-      "socks5": "socks5://127.0.0.1:1080",
+      "socks5": "socks5://127.0.0.1:10808",
       # "https": "http://127.0.0.1:1081",
         }
 
