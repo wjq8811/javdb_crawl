@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- 
 import os,shutil
 import pymysql
+from analysis_html import analysis_html
 
 def sql_query():
     connect = pymysql.Connect(host='192.168.2.10',port=33077,user='root',passwd='Wjq1988!@#',db='javdb',charset='utf8')
@@ -64,12 +65,74 @@ def arrange_censored_images(censored_path,censored_images_path):
                                 print('重命名成功')
                                 num +=1
                                 break
+def copy_html(path):
+    new_path = r'E:\javdb\censored\html'
+    num = 1
+    for root,dirs,files in os.walk(path):
+        for html_name in files:
+            html_path = os.path.join(root,html_name)
+            if '.html' in html_path:
+                print(num,'_'*20)
+                print(html_name.encode('gbk', 'ignore').decode('gbk'))
+                print(html_path.encode('gbk', 'ignore').decode('gbk'))
+                shutil.move(html_path,new_path)
+                print('移动成功')
+                num+=1
+
+def read_all_text(path: str):
+    with open(path, 'r', encoding='utf-8')as f:
+        lines = f.readlines()
+        text = ''.join(lines)
+        return text
+
+def copy_html_to_nas(old_path,nas_path):
+    for root,dirs,files in os.walk(old_path):
+        for html_name in files:
+            html_path = os.path.join(root,html_name)
+            if '.html' in html_path:
+                print(num,'_'*20)
+                print(html_name.encode('gbk', 'ignore').decode('gbk'))
+                print(html_path.encode('gbk', 'ignore').decode('gbk'))
+                html_text = read_all_text(html_path)
+                fanhao_list = analysis_html(html_path)
+                '''
+                fanhao_list = [fanhao.replace('"','').replace('\'',''),\
+                                title.replace('"','').replace('\'',''),\
+                                time.replace('"','').replace('\'',''),\
+                                duration.replace('"','').replace('\'',''),\
+                                directors.replace('"','').replace('\'',''),\
+                                makers.replace('"','').replace('\'',''),\
+                                publishers.replace('"','').replace('\'',''),\
+                                series.replace('"','').replace('\'',''),\
+                                strong.replace('"','').replace('\'',''),\
+                                type_.replace('"','').replace('\'',''),\
+                                actors.replace('"','').replace('\'',''),\
+                                video_cover.replace('"','').replace('\'',''),\
+                                preview_video.replace('"','').replace('\'',''),\
+                                preview_pictures.replace('"','').replace('\'',''),\
+                '''
+                fanhao = fanhao_list[0]
+                actors = fanhao_list[10].split(',')
+                for actor in actors:
+                    new_path = nas_path + '\\' + actor +'\\' + fanhao
+                    if not os.path.exists(new_path):
+                        os.makedirs(new_path)
+                    print(new_path.encode('gbk', 'ignore').decode('gbk'))
+                    shutil.move(html_path,new_path)
+                    print('移动成功')
+                    num+=1
+
+
 
 if __name__ == '__main__':
-    censored_images_path = r'E:\javdb\censored\censored_poster'
-    censored_path = r'Z:\censored'
-    arrange_censored_images(censored_path,censored_images_path)
+    # censored_images_path = r'E:\javdb\censored\censored_poster'
+    # censored_path = r'Z:\censored'
+    # arrange_censored_images(censored_path,censored_images_path)
     # tmp_list = sql_query()
     # for x in tmp_list:
     #     print(x[0])
-    
+    path = r'Z:\censored'
+    copy_html(path)
+    old_path = r'E:\javdb\censored\html'
+    nas_path = r'Z:\censored'
+    # copy_html_to_nas(old_path,nas_path)
